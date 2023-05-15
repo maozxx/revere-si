@@ -7,9 +7,9 @@ package reversi;
 
 /**
  *
- * @author Onur Sezer
+ * @author Maoz Ben Simhon
  */
-public class Cell 
+public class Cell // משבצות
 {
     
     private int corY;

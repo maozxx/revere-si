@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Onur Sezer
+ * @author Maoz Ben Simhon
  */
 public class Reversi {
     
@@ -30,7 +30,7 @@ public class Reversi {
             gameCells[i] = new Cell[8];
         for(int i = 0; i < rows; ++i)
         {
-            for(int j = 0; j < cols; ++j)
+            for(int j = 0; j < cols; ++j) // פעולות המערך הקלאסי שמודפס שלאחר מכן יומר למסך
             {   
                 gameCells[i][j] = new Cell();
                 char c = (char) (97 + j);
@@ -98,13 +98,13 @@ public class Reversi {
             }
         }
     }
-    public int play() // play function for computer
+    public int play() // play function for computer  // מחזיר את כמות המהלהכים העתידיים הגדולה ביותר // בעצם מה שאחראי לכל החישובים
     {  
         int change,max = 0,mX = 0,mY = 0,sum;;    
         change = 0;
         int numberOfMoves[] = new int[1];
 
-        for (int i = 0; i < rows; ++i) // En buyuk hamleyi bulur
+        for (int i = 0; i < rows; ++i)
         {
             for (int j = 0; j < cols; ++j)
             {
@@ -122,20 +122,18 @@ public class Reversi {
         computerCont = max;
         if (computerCont == 0)
         {
-            //cout << endl;
-            //cout << "Computer Passes(no move possible)\n";
+
             computerCont = -1;
             return -1;
         }
         if(computerCont != 0)
         {
             change = 1;
-            //cout << "numberOfMoves : " << sum << endl;
-            move(mX,mY,change,'O','X',numberOfMoves);		
+            move(mX,mY,change,'O','X',numberOfMoves);
         }
         return 0;
     }
-    public int play(int xCor,int yCor) // play function for user
+    public int play(int xCor,int yCor) // play function for user // checks valid moves // מציג את כל המיקומים שאפשר לזוז אליהם חוקית
     {  
         int status;
         int change,max = 0; 
@@ -154,7 +152,7 @@ public class Reversi {
             }
         }
         userCont = max;
-        if(userCont == 0) // Hamle kalmazsa computera gecer
+        if(userCont == 0)
         { 
             userCont = -1;
             return -1;
@@ -163,11 +161,11 @@ public class Reversi {
         {	
             change = 1;
             if(!(gameCells[xCor][yCor].getCh() == '.'))         
-                return 1; // dolu yere basti, gecersiz hamle
+                return 1;
                 
             status = move(xCor,yCor,change,'X','O',numberOfMoves);
             if(status == -1)
-                return 1; // gecersiz hamle
+                return 1;
         }
         for (int i = 0; i < 8; i++) 
         {
@@ -182,14 +180,14 @@ public class Reversi {
     {
         int[] arr = new int[3];
         int cross, circular, point ;
-        controlElements(arr);
+        countEach(arr);
         cross = arr[0];
         circular = arr[1];
         point = arr[2];
         
         if( (userCont == -1 && computerCont == -1) || point == 0)
         {
-            if(userCont == -1 && computerCont == -1) //No legal move
+            if(userCont == -1 && computerCont == -1) //אין מהלך לא חוקי
                 return 0;
             if(circular > cross)
                 return 1;
@@ -199,12 +197,12 @@ public class Reversi {
                 return 3;
             else if(circular == 0)
                 return 4;
-            else // scoreless
+            else // אין ניקוד
               return 5;
         }
         return -1;
     }
-    public void controlElements(int arr[] )
+    public void countEach(int arr[] ) // סופר את כל הצבעים כמה מכל אחד וכמה ריקים
     {
         int cross = 0, point = 0, circular = 0;
 
@@ -223,7 +221,7 @@ public class Reversi {
         } 
         arr[0] = cross; arr[1] = circular; arr[2] = point;
     }
-    public void reset()
+    public void reset() // איפוס משחק
     {
         int mid = rows / 2;
         for(int i = 0; i < rows; ++i)
@@ -255,7 +253,7 @@ public class Reversi {
             }
         }
     }
-    int move(int xCor, int yCor,int change,char char1,char char2,int []numberOfMoves)
+    int move(int xCor, int yCor,int change,char char1,char char2,int []numberOfMoves) //checking and executing a move in the Reversi game, updating the game board accordingly.
     {
 	int cont,st2=0,st=0;
 	int status = -1,corX,corY,temp;
@@ -264,10 +262,8 @@ public class Reversi {
         
         x = xCor; y = yCor;
 	numberOfMoves[0] = 0;
-	//cout << "x : " << x << ", y: " << y << endl;
-	if((x+1 < rows) && ( gameCells[x+1][y].getCh() == char2)) //asagi
+	if((x+1 < rows) && ( gameCells[x+1][y].getCh() == char2))
 	{	
-            //cout << "deneme\n";
             cont = x;
             while((cont < rows) && (st2 != -1) && (st != 2))
             {
@@ -298,9 +294,8 @@ public class Reversi {
             }
             st=0;st2=0;
 	}
-	if((x-1 >= 0) && (gameCells[x-1][y].getCh() == char2)) //yukari
+	if((x-1 >= 0) && (gameCells[x-1][y].getCh() == char2))
 	{
-            //cout << "deneme2\n";
             cont = x;
             while((cont >= 0) && (st2 != -1) && (st != 2))
             {
@@ -331,9 +326,9 @@ public class Reversi {
             }		
             st=0;st2=0;
 	}
-	if((y+1 < cols) && (gameCells[x][y+1].getCh() == char2)) //sag
+	if((y+1 < cols) && (gameCells[x][y+1].getCh() == char2))
 	{
-            //cout << "deneme3\n";
+
             cont = y;
             while((cont < cols) && (st2 != -1) && (st != 2))
             {
@@ -364,9 +359,8 @@ public class Reversi {
             }
             st=0;st2=0;
 	}
-	if((y-1 >= 0) && (gameCells[x][y-1].getCh() == char2)) //sol
+	if((y-1 >= 0) && (gameCells[x][y-1].getCh() == char2))
 	{
-            //cout << "deneme4\n";
             cont = y;
             while((cont >= 0) && (st2 != -1) && (st != 2))
             {
@@ -397,9 +391,8 @@ public class Reversi {
             }
             st=0;st2=0;	
 	}
-	if((x-1 >= 0) && (y+1 < cols) && (gameCells[x-1][y+1].getCh() == char2)) //sag yukari
+	if((x-1 >= 0) && (y+1 < cols) && (gameCells[x-1][y+1].getCh() == char2))
 	{
-            //cout << "deneme5\n";
             corY = y;
             corX = x;
             while((corX >= 0) && (corY < cols) && (st2 != -1) && (st != 2))
@@ -426,7 +419,6 @@ public class Reversi {
                 {
                     corX++;
                     corY--;
-                    //cout << "corX : " << corX << ", corY : " << corY << endl << endl;
                     if((corX <= x) && (y <= corY)){
                         str = gameCells[corX][corY].getCorX();
                         ix = gameCells[corX][corY].getCorY();
@@ -437,9 +429,8 @@ public class Reversi {
             }
             st=0;st2=0;		
 	}
-	if((x-1 >= 0) && (y-1 >= 0) && (gameCells[x-1][y-1].getCh() == char2)) //sol yukari
+	if((x-1 >= 0) && (y-1 >= 0) && (gameCells[x-1][y-1].getCh() == char2))
 	{
-            //cout << "deneme6\n";
             corY = y;
             corX = x;
             while((corX >= 0) && (corY >= 0) && (st2 != -1) && (st != 2))
@@ -462,7 +453,6 @@ public class Reversi {
             }	
             if(st == 2 && change == 1)
             {
-                //cout << "corX : " << corX << ", corY : " << corY << endl << endl;
                 while((corX <= x) && (corY <= y))
                 {
                     corX++;
@@ -477,9 +467,8 @@ public class Reversi {
             }
             st=0;st2=0;	
 	}
-	if((x+1 < rows) && (y+1 < cols) && (gameCells[x+1][y+1].getCh() == char2)) //sag asagi
+	if((x+1 < rows) && (y+1 < cols) && (gameCells[x+1][y+1].getCh() == char2))
 	{
-            //cout << "deneme7\n";
             corY = y;
             corX = x;
             while((corX < rows) && (corY < cols) && (st2 != -1) && (st != 2))
@@ -506,7 +495,6 @@ public class Reversi {
                 {
                     corX--;
                     corY--;
-                    //cout << "corX : " << corX << ", corY : " << corY << endl << endl;
                     if((corX >= x) && (corY >= y)){
                         str = gameCells[corX][corY].getCorX();
                         ix = gameCells[corX][corY].getCorY();
@@ -517,9 +505,8 @@ public class Reversi {
             }
             st=0;st2=0;
 	}
-	if((x+1 < rows) && (y-1 >= 0) && (gameCells[x+1][y-1].getCh() == char2)) //sol asagi
+	if((x+1 < rows) && (y-1 >= 0) && (gameCells[x+1][y-1].getCh() == char2))
 	{
-            //cout << "deneme8\n";
             corY = y;
             corX = x;
             while((corX < rows) && (corY >= 0) && (st2 != -1) && (st != 2))
@@ -546,7 +533,6 @@ public class Reversi {
                 {
                     corX--;
                     corY++;
-                    //cout << "corX : " << corX << ", corY : " << corY << endl << endl;
                     if((corX >= x) && (corY <= y)){
                         str = gameCells[corX][corY].getCorX();
                         ix = gameCells[corX][corY].getCorY();

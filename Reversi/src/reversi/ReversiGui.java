@@ -5,7 +5,6 @@
  */
 package reversi;
 
-import java.applet.Applet;
 import java.awt.Color;
 import javax.swing.*;
 import java.awt.*;
@@ -14,12 +13,11 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
-import javax.swing.border.TitledBorder;
 import javax.swing.ImageIcon;
 
 /**
  *
- * @author Onur Sezer
+ * @author Maoz Ben Simhon
  */
 public class ReversiGui extends JPanel{
 
@@ -73,7 +71,7 @@ public class ReversiGui extends JPanel{
         } catch (IOException ex) {}
         undo.addActionListener(new Action());
         JLabel name = new JLabel();
-        name.setText("Developed by Onur Sezer");
+        name.setText("Developed by MAOZ");
         name.setLocation(750, 680);
         panel.add(newGame);
         panel.add(undo);
@@ -90,7 +88,7 @@ public class ReversiGui extends JPanel{
             {
                 cell[k] = new JButton();
                 cell[k].setSize(50, 50);
-                cell[k].setBackground(Color.GREEN);
+                cell[k].setBackground(Color.blue);
                 cell[k].setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 if(board.gameCells[row][colum].getCh() == 'X')
                 {
@@ -170,7 +168,7 @@ public class ReversiGui extends JPanel{
         //scorePanel.add(score2);
         
     }  
-    static class Action implements ActionListener
+    static class Action implements ActionListener // אחראי לצייר לפי המערך ולהקשיב לשחקן
     {
 
         @Override
@@ -273,7 +271,7 @@ public class ReversiGui extends JPanel{
                             cell[arrList.get(j)*rows + arrList.get(j + 1)].setIcon(new ImageIcon(img));
                         } catch (IOException ex) {}  
                     }
-                    board.controlElements(arr);
+                    board.countEach(arr);
                     playerScore = arr[0]; pcScore = arr[1]; point = arr[2];
                     score1.setText("Player : " + playerScore + "  ");
                     score2.setText("Computer : " + pcScore + "  "); 
@@ -328,7 +326,7 @@ public class ReversiGui extends JPanel{
                                     k++;
                                 }
                             }
-                            board.controlElements(arr);
+                            board.countEach(arr); // score
                             playerScore = arr[0]; pcScore = arr[1]; point = arr[2];
                             score1.setText("Player : " + playerScore + "  ");
                             score2.setText("Computer : " + pcScore + "  "); 
@@ -375,7 +373,7 @@ public class ReversiGui extends JPanel{
                                     cell[arrList.get(j)*rows + arrList.get(j + 1)].setIcon(new ImageIcon(img));
                                 } catch (IOException ex) {}  
                             }
-                            board.controlElements(arr);
+                            board.countEach(arr);
                             playerScore = arr[0]; pcScore = arr[1]; point = arr[2];
                             score1.setText("Player : " + playerScore + "  ");
                             score2.setText("Computer : " + pcScore + "  ");  
